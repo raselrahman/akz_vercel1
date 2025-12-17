@@ -1,18 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "routes": [
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
+      "src": "/api/(.*)",
+      "dest": "https://akzbackend-production.up.railway.app/$1"
     },
     {
-      "src": "backend/api/**/*.js",
-      "use": "@vercel/node"
+      "src": "/(.*)",
+      "dest": "/index.html"
     }
-  ],
-  "routes": [
-    { "src": "/api/(.*)", "dest": "/backend/api/$1.js" },
-    { "src": "/(.*)", "dest": "/frontend/dist/$1" }
   ]
 }
