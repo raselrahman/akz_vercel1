@@ -20,13 +20,6 @@ export default function App() {
       setUser(JSON.parse(storedUser));
     }
 
-    // -------------------------------
-    // Removed Railway-specific wake-up ping
-    // Vercel serverless functions are cold-started automatically
-    // -------------------------------
-    // fetch("https://akzbackend-production.up.railway.app/")
-    //   .then(() => console.log("Backend wake-up ping sent ✅"))
-    //   .catch((err) => console.log("Backend still waking up... ⏳", err));
   }, []);
 
   const handleLogin = (username, password) => {
