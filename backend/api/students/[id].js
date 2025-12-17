@@ -1,19 +1,19 @@
 import mysql from "mysql2/promise";
 
-const connectDB = async () => {
-  return await mysql.createConnection({
+export default async function handler(req, res) {
+  const {
+    query: { id }
+  } = req;
+
+  const db = await mysql.createConnection({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
-    password: process.env.DB_PASS,
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: process.env.DB_PORT,
     ssl: { rejectUnauthorized: true }
   });
-};
 
-export default async function handler(req, res) {
-  const { id } = req.query;
-  const db = await connectDB();
   try {
     if (req.method === "PUT") {
       const { name, year, level, address, contact } = req.body;
@@ -21,15 +21,16 @@ export default async function handler(req, res) {
         "UPDATE students SET name=?, year=?, level=?, address=?, contact=? WHERE id=?",
         [name, year, level, address, contact, id]
       );
-      res.status(200).json({ success: true });
+      res.json({ success: true });
     } else if (req.method === "DELETE") {
       await db.execute("DELETE FROM students WHERE id=?", [id]);
-      res.status(200).json({ success: true });
+      res.json({ success: true });
     } else {
-      res.status(405).json({ message: "Method not allowed" });
+      res.status(405).json({ error: "Method not allowed" });
     }
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   } finally {
     await db.end();
   }
