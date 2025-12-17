@@ -7,17 +7,23 @@ export default function Dashboard({ user }) {
   const [newStudent, setNewStudent] = useState({ name: "", year: "", level: "", address: "", contact: "" });
   const [editingStudent, setEditingStudent] = useState(null);
 
+  // -------------------------------
   // Load all students
+  // Changed: API endpoint is now relative /api/students
+  // -------------------------------
   useEffect(() => {
-    fetch("https://akzbackend-production.up.railway.app/students")
+    fetch("/api/students")
       .then(res => res.json())
       .then(data => setStudents(data));
   }, []);
 
+  // -------------------------------
   // Add student
+  // Changed: API endpoint is now relative /api/students
+  // -------------------------------
   const handleAddStudent = async (e) => {
     e.preventDefault();
-    const res = await fetch("https://akzbackend-production.up.railway.app/students", {
+    const res = await fetch("/api/students", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newStudent)
@@ -30,19 +36,27 @@ export default function Dashboard({ user }) {
     }
   };
 
+  // -------------------------------
   // Delete student
+  // Changed: API endpoint is now relative /api/students/:id
+  // -------------------------------
   const handleDelete = async (id) => {
-    const res = await fetch(`https://akzbackend-production.up.railway.app/students/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/students/${id}`, { method: "DELETE" });
     if (res.ok) setStudents(students.filter(s => s.id !== id));
   };
 
+  // -------------------------------
   // Start editing
+  // -------------------------------
   const startEdit = (student) => setEditingStudent(student);
 
+  // -------------------------------
   // Update student
+  // Changed: API endpoint is now relative /api/students/:id
+  // -------------------------------
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const res = await fetch(`https://akzbackend-production.up.railway.app/students/${editingStudent.id}`, {
+    const res = await fetch(`/api/students/${editingStudent.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editingStudent)
@@ -53,9 +67,12 @@ export default function Dashboard({ user }) {
     }
   };
 
+  // -------------------------------
   // Filtered students
-  const filteredStudents = students.filter(s =>s.name.toLowerCase().includes(search.toLowerCase()) ||
-    s.id.toString().includes(search)
+  // -------------------------------
+  const filteredStudents = students.filter(
+    s => s.name.toLowerCase().includes(search.toLowerCase()) ||
+         s.id.toString().includes(search)
   );
 
   return (
@@ -72,7 +89,9 @@ export default function Dashboard({ user }) {
         <button onClick={() => setShowAddForm(true)}>Add Student</button>
       </div>
 
-      {/* Add Student Form */}
+      {/* -------------------------------
+          Add Student Form
+          ------------------------------- */}
       {showAddForm && (
         <form onSubmit={handleAddStudent} style={{ marginBottom: "20px" }}>
           {["name","year","level","address","contact"].map(field => (
@@ -88,7 +107,9 @@ export default function Dashboard({ user }) {
         </form>
       )}
 
-      {/* Edit Student Form */}
+      {/* -------------------------------
+          Edit Student Form
+          ------------------------------- */}
       {editingStudent && (
         <form onSubmit={handleUpdate} style={{ marginBottom: "20px" }}>
           {["name","year","level","address","contact"].map(field => (
@@ -103,7 +124,9 @@ export default function Dashboard({ user }) {
         </form>
       )}
 
-      {/* Students Table */}
+      {/* -------------------------------
+          Students Table
+          ------------------------------- */}
       <table border="1" cellPadding="5" cellSpacing="0">
         <thead>
           <tr>
