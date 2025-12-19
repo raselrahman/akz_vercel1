@@ -9,7 +9,6 @@ export default function Dashboard({ user }) {
 
   // -------------------------------
   // Load all students
-  // Changed: API endpoint is now relative /api/students
   // -------------------------------
   useEffect(() => {
     fetch("/api/students")
@@ -19,7 +18,6 @@ export default function Dashboard({ user }) {
 
   // -------------------------------
   // Add student
-  // Changed: API endpoint is now relative /api/students
   // -------------------------------
   const handleAddStudent = async (e) => {
     e.preventDefault();
@@ -38,10 +36,9 @@ export default function Dashboard({ user }) {
 
   // -------------------------------
   // Delete student
-  // Changed: API endpoint is now relative /api/students/:id
   // -------------------------------
   const handleDelete = async (id) => {
-    const res = await fetch(`/api/students/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/students?id=${id}`, { method: "DELETE" });
     if (res.ok) setStudents(students.filter(s => s.id !== id));
   };
 
@@ -52,11 +49,10 @@ export default function Dashboard({ user }) {
 
   // -------------------------------
   // Update student
-  // Changed: API endpoint is now relative /api/students/:id
   // -------------------------------
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const res = await fetch(`/api/students/${editingStudent.id}`, {
+    const res = await fetch(`/api/students?id=${editingStudent.id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editingStudent)
@@ -89,9 +85,7 @@ export default function Dashboard({ user }) {
         <button onClick={() => setShowAddForm(true)}>Add Student</button>
       </div>
 
-      {/* -------------------------------
-          Add Student Form
-          ------------------------------- */}
+      {/* Add Student Form */}
       {showAddForm && (
         <form onSubmit={handleAddStudent} style={{ marginBottom: "20px" }}>
           {["name","year","level","address","contact"].map(field => (
@@ -107,9 +101,7 @@ export default function Dashboard({ user }) {
         </form>
       )}
 
-      {/* -------------------------------
-          Edit Student Form
-          ------------------------------- */}
+      {/* Edit Student Form */}
       {editingStudent && (
         <form onSubmit={handleUpdate} style={{ marginBottom: "20px" }}>
           {["name","year","level","address","contact"].map(field => (
@@ -124,9 +116,7 @@ export default function Dashboard({ user }) {
         </form>
       )}
 
-      {/* -------------------------------
-          Students Table
-          ------------------------------- */}
+      {/* Students Table */}
       <table border="1" cellPadding="5" cellSpacing="0">
         <thead>
           <tr>
