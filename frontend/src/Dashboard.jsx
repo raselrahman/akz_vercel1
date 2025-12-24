@@ -72,7 +72,7 @@ export default function Dashboard({ user }) {
   );
 
   return (
-    <div style="display: flex; justify-content: center; align-items: center; height: 200px; border: 1px solid black;">
+    <div style="display: flex; justify-content: center; align-items: center;">
       <h2>Welcome, {user?.name}!</h2>
 
       <div style={{ marginBottom: "10px" }}>
