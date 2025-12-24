@@ -117,7 +117,7 @@ export default function Dashboard({ user }) {
       )}
 
       {/* Students Table */}
-      <table border="1" cellPadding="5" cellSpacing="0">
+      <table border="1" cellPadding="5" cellSpacing="0" style={{ width: "100%", marginTop: "20px" }}>
         <thead>
           <tr>
             <th>ID</th><th>Name</th><th>Year</th><th>Level</th><th>Address</th><th>Contact</th><th>Actions</th>
